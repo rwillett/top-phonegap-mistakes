@@ -1,9 +1,9 @@
 # White-list Matrix #
 Date: 2015-10-26
 
-If you have never heard of a [decision table](https://en.wikipedia.org/wiki/Decision_table), today you'll learn of the value of them. This easy enough. Start at the top (1.) and continue till to the bottom (9.). If you drop out anywhere along the way. You are done.  However, the tables in 1., 7., 
+If you have never heard of a [decision table](https://en.wikipedia.org/wiki/Decision_table), today you'll learn of the value of them. This easy enough. Start at the top (1) and continue till to the bottom (9). If you drop out anywhere along the way, you are done.  However, the tables in 1., 7. [DN: Not sure what this means?]
 
-This table does not loop back or interconnect. This is, in fact, a simple expert system &ndash; with you as the feedback. Meaning, if you discover an error, let me know. I or someone else will adjust this set of tables.
+This is, in fact, a simple expert system &ndash; with you checking and doing the feedback. Meaning, if you discover an error, let me know. I or someone else will adjust this set of tables.
 
 
 1. [Is my version of Cordova/Phonegap included](#version)?
@@ -19,18 +19,22 @@ This table does not loop back or interconnect. This is, in fact, a simple expert
 
 ###1. <a name=version>Is my version of Cordova/Phonegap included</a>###
 
-| Your Version of<br>*Cordova/Phonegap Tools* <sup>¢</sup> | support | notes |
+cordova -v
+
+It is recommend that you move to Cordova V4.x as a minimum. Older versions are difficult to support and many plugins do not work correctly.
+
+| Your Version of<br>*Cordova/Phonegap Tools* <sup>Â¢</sup> | support | notes |
 |----------------------------------|---------|-------|
 | 2.x | Not support | deprecated |
 | 3.x | Available   |  - |
 | 4.x | Required    | white-list, plugin |
-| 5.x<sup>¥</sup> | Required    | white-list, plugin, CSP |
-| Any above AND iOS9<sup>£</sup> | Required | Apple's ATS<sup>§</sup> |
+| 5.x<sup>Â¥</sup> | Required    | white-list, plugin, CSP |
+| Any above AND iOS9<sup>Â£</sup> | Required | Apple's ATS<sup>Â§</sup> |
 
-- ¢ = Cordova and Phonegap versions do NOT align, but are close. This version is not the \*pinned* version either. If you do not know the difference, [learn](http://devgirl.org/2014/11/07/cordovaphonegap-version-confusion/) &mdash; [official release policy](https://github.com/apache/cordova-coho/blob/master/docs/versioning-and-release-strategy.md).
-- ¥ = This include cli-5.1.0 and cli.5.2.0
-- £ = As of 2015-10-28, iOS9 is officially **not** supported until *Cordova iOS 4.0.0* is released ([SEE](http://community.phonegap.com/nitobi/topics/phonegap-build-ios-9-support-status)).
-- § = ATS requires &ndash; if you are using Apple's SSL, then the server you connect to [run TLSv1.2](http://ste.vn/2015/06/10/configuring-app-transport-security-ios-9-osx-10-11/)
+- Â¢ = Cordova and Phonegap versions do NOT align, but are close. This version is not the \*pinned* version either. If you do not know the difference, [learn](http://devgirl.org/2014/11/07/cordovaphonegap-version-confusion/) &mdash; [official release policy](https://github.com/apache/cordova-coho/blob/master/docs/versioning-and-release-strategy.md).
+- Â¥ = This include cli-5.1.0 and cli.5.2.0
+- Â£ = As of 2015-10-28, iOS9 is officially **not** supported until *Cordova iOS 4.0.0* is released ([SEE](http://community.phonegap.com/nitobi/topics/phonegap-build-ios-9-support-status)).
+- Â§ = ATS requires &ndash; if you are using Apple's SSL, then the server you connect to [run TLSv1.2](http://ste.vn/2015/06/10/configuring-app-transport-security-ios-9-osx-10-11/)
 
 ###2. <a name=guide>Which guide</a>###
 
@@ -50,19 +54,19 @@ However, the best and most accurate information seems to come from from the docu
 
 > This plugin implements the Cordova 3.6 Whitelist policy for Cordova 4.0. 
 
-If you implemented the whitelist system for Android before `15 Apr 2015`, then you can still use this system. As of that date, the new `whitelist` plugin is available and it runs with a different set of rules. However, the `legacy-whitelist` is also available and is currently supported - but not much longer.
+If you implemented the whitelist system for Android before `15 Apr 2015`, then you can still use this system. As of that date, the new `whitelist` plugin is available and it runs with a different set of rules. However, the `legacy-whitelist` is also available and is currently supported - but not much longer. You are strongly recommended to move to the `whitelist` plugin.
 
 [`whitelist`](https://www.npmjs.com/package/cordova-plugin-whitelist)
 
 > This plugin implements a whitelist policy for navigating the application webview on Cordova 4.0
 
-If you have not implemented the whitelist system yet, then you want to start here. This plugin has more parameters and has better granularity that the legacy plugin.
+If you have not implemented the whitelist system yet, then you want to start here. This plugin has more parameters and has better granularity that the legacy whitelist plugin.
 
 ###4. <a name=navigation>allow-navigation</a>###
 
-Controls which URLs the \*WebView* itself can be navigated to. Applies to top-level navigations only. 
+Controls which URLs the \*WebView* itself can be navigated to. Applies to top-level navigation only. 
 
-By default, navigations only to `file://` URLs, are allowed. To allow other other URLs, you must add `<allow-navigation>` tags to your `config.xml`.
+By default, navigation only to `file://` URLs, are allowed. To allow other other URLs, you must add `<allow-navigation>` tags to your `config.xml`.
 
 *Quirks:* On Android, it also applies to iframes for non-http(s) schemes.
 
@@ -80,7 +84,7 @@ This whitelist does not apply to plugins, only hyperlinks and calls to `window.o
 
 ###6. <a name=access>access origin</a>###
 
-Controls which network requests (images, XHRs, etc) are allowed to be made (via cordova native hooks).
+Controls which network requests (images, XHRs, etc) are allowed to be made (via Cordova native hooks).
 
 Without any `<access>` tags, only requests to `file://` URLs are allowed. However, the default Cordova application includes `<access origin="*">` by default.
 
@@ -90,7 +94,7 @@ Without any `<access>` tags, only requests to `file://` URLs are allowed. Howeve
 
 ###7. <a name=inappbrowser>inappbrowser</a>###
 
-This is one point where the documentation conflicts with it's self. If you do a search for `whitelist` on the [documentation](https://www.npmjs.com/package/cordova-plugin-inappbrowser) you will see the different conflicting lines. The poor design indicates that this will be re-written. The inconsistence in the writing style points to multiple authors, hence the neglect.
+This is one point where the documentation conflicts with itself. If you do a search for `whitelist` on the [documentation](https://www.npmjs.com/package/cordova-plugin-inappbrowser) you will see the different conflicting lines. The poor design indicates that this will be re-written. The inconsistence in the writing style points to multiple authors, hence the neglect.
 
 *In the middle of the  3rd paragraph is*
 
@@ -102,21 +106,21 @@ This is one point where the documentation conflicts with it's self. If you do a 
 
 ###8. <a name=config.xml>How do I apply those `config.xml` elements</a>###
 
-The documentation suggests that the CSP be used instead of `access origin`. I disagree. CSP is confusing and unclear. Further the design by committee lends it ripe for a re-write. In addition, the inconsitency with inappbrowser adds to more confusion.
+The documentation suggests that the CSP be used instead of `access origin`. I disagree. CSP is confusing and unclear. Further the design by committee lends it ripe for a re-write. In addition, the inconsistency with inappbrowser adds to more confusion. [DN: Jessse, not sure if you should state this. I agree that CSP is confusing and unclear, I am also unclear myself whether access origin is the right way to go. I would thinkl about this line and ask yourself are you really sure. Rob]
 
 | Which XML element  |  Controls  |  Quirks  |
 |--------------------|------------|----------|
-| `allow-navigation` | [WebView](webview.md)<sup>¿</sup> | *Android* applies this to iframes (non-http(s))
-| `allow-intent`     | URL request to system `window.open()`<sup>¿</sup> | *Android* equivalent to BROWSEABLE
-| `access origin`    | Controls network requests (images, XHRs, etc) via Cordova | *Android* makes allowance for [Talkback](http://www.androidcentral.com/what-google-talk-back) <sup>µ</sup>
+| `allow-navigation` | [WebView](webview.md)<sup>Â¿</sup> | *Android* applies this to iframes (non-http(s))
+| `allow-intent`     | URL request to system `window.open()`<sup>Â¿</sup> | *Android* equivalent to BROWSEABLE
+| `access origin`    | Controls network requests (images, XHRs, etc) via Cordova | *Android* makes allowance for [Talkback](http://www.androidcentral.com/what-google-talk-back) <sup>Âµ</sup>
 
-- ¿ = It unclear how this interacts with `inappbrowser`
-- µ = The documentation alludes that Android has this built-in.
+- Â¿ = It unclear how this interacts with `inappbrowser`
+- Âµ = The documentation alludes that Android has this built-in.
 
 ###9. <a name=csp>CSP (Content Security Policy)</a>###
 
 **Opinion**
-> CSP has to be the most *heinous* part of the `whitelist` system. It has sixteen (16) directives and they have overlapping logic. I can safely predict this will be rewritten. 
+> CSP has to be the most *heinous* part of the `whitelist` system. It has sixteen (16) directives and they have overlapping logic. [DN: I agree its confusing, but I got it working in a morning from a standing start. I also don't think it will be rewritten as its gone too far down the line and yet another tag to do security is one (or more) too many. Rob]. 
 
 The CSP is configured per web page using HTTP headers. Whenever the browser loads an HTML document, the response headers of the HTTP request that delivered the document are used to configure the *content security policy* for all content that originates from this HTML document.
 
@@ -186,7 +190,7 @@ You can combine sources, which can include 'CSP Keywords', 'CSP Data(words)', an
 
 **CSP Host (regular) Expressions**
 
-| need add | examples 
+| need add | examples [DN: Agreed need examples. ERpb]
 
 There are four (4) documents worth reading on this subject.
 
@@ -197,7 +201,38 @@ There are four (4) documents worth reading on this subject.
 
 ###10. <a name=ats>ATS</a>###
 
+As part of Apples move to iOS 9 Apple is mandating the use of Apple Transport System (ATS). This basically means that all comms should use https rather than http. At the moment it is easy to create exceptions to the ATS policy, Apple is likely to tighten up these exceptions over time, though it is difficult to see how they can make it 100% mandatory as some server sites simply will not work over https and may never be converted. 
 
+There are known issues with some sites using https AND Apples ATS. It is not simply the case that you need to add 's' to the http call. Apple mandates TLS1.2 with iOS9 and https and some sites will not work with TLS1.2 though they will work with https. Amazons Web Services is known to have problems. It is easy to create an exception 
+
+https://mobile.awsblog.com/post/Tx2QM69ZE6BGTYX/Preparing-Your-Apps-for-iOS-9
+
+```
+<key>NSAppTransportSecurity</key>
+<dict>
+      <key>NSExceptionDomains</key>
+      <dict>
+            <key>amazonaws.com</key>
+            <dict>
+                  <key>NSThirdPartyExceptionMinimumTLSVersion</key>
+                  <string>TLSv1.0</string>
+                  <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+                  <false/>
+                  <key>NSIncludesSubdomains</key>
+                  <true/>
+            </dict>
+            <key>amazonaws.com.cn</key>
+            <dict>
+                  <key>NSThirdPartyExceptionMinimumTLSVersion</key>
+                  <string>TLSv1.0</string>
+                  <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+                  <false/>
+                  <key>NSIncludesSubdomains</key>
+                  <true/>
+            </dict>
+      </dict>
+</dict>
+```
 ----
 
 When I say the information about the `whitelist` system was buried, I mean these three (3) blog posts
